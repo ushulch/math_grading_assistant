@@ -9,7 +9,7 @@
 
 
 
-:- http_handler(root('math_autograder'), autograder_handler, []).
+:- http_handler(root('math_autograder/solutions'), autograder_handler, []).
 
 
 
