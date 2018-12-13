@@ -5,3 +5,5 @@
 :- module(load, []).
 
 :- use_module(math_autograder).
+:- use_module(algebra/solution).
+:- use_module(algebra/solution_test).

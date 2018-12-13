@@ -1,8 +1,8 @@
 %% -*-prolog-*-
 %%
-:- module(solution, [solution/5]).
+:- module(solution, [solution/5, solution/7]).
 
-%% Helper function for solution/7, this is what should be called from external code.
+%% Helper function for solution 7, this is what should be called from external code.
 solution(Problem, MinNumSteps, MaxNumSteps, PossibleSolutions, ResultsOut) :-
     InitialResults = results{step_count: 0, error_count:0, messages:[]},
     solution(Problem, MinNumSteps, MaxNumSteps, Problem, PossibleSolutions, InitialResults, ResultsOut).
@@ -34,25 +34,41 @@ solution(Problem, MinNumSteps, MaxNumSteps, PossibleSolutions, ResultsOut) :-
 %% ResultsIn/ResultsOut is a pair of accumulator variables used to track results.   They are a dict of the form
 %%    results{step_count:0, error_count:0, messages:[]}
 %%
-%%       
 %%
 %%
-solution(_Problem, _MinNumSteps, MaxNumSteps, _PreviousPossibleSolutionLine, _PossibleSolutions, _ResultsIn, ResultsOut) :-
-    results{step_count:StepCount, error_count:ErrorCount, messages:Messages},
+%%
+solution(_Problem, _MinNumSteps, MaxNumSteps, _PreviousPossibleSolutionLine, _PossibleSolutions, ResultsIn, ResultsOut) :-
+    results{step_count:StepCount, error_count:ErrorCount, messages:Messages} = ResultsIn,
     StepCount > MaxNumSteps,
     NewMessages = [ ["Max Steps Exceeded"] | Messages ],
     NewErrorCount is ErrorCount + 1,
     NewStepCount is StepCount + 1,
     ResultsOut = results{step_count:NewStepCount, error_count:NewErrorCount, messages:NewMessages}.
-	      
 
-solution(Problem,
-	 MinNumSteps,
-	 MaxNumSteps,
-	 CurrentStep,
-	 PreviousPossibleSolutionLine,
-	 [PossibleSolutionLine | PossibleSolutions],
-	 ResultsIn,
+
+solution(_Problem, MinNumSteps, _MaxNumSteps, _PreviousPossibleSolutionLine, PossibleSolutions, ResultsIn, ResultsOut) :-
+    PossibleSolutions = [],
+    results{step_count:StepCount, error_count:ErrorCount, messages:Messages} = ResultsIn,
+    StepCount < MinNumSteps,
+    NewMessages = [ ["Not Enough Steps"] | Messages ],
+    NewErrorCount is ErrorCount + 1,
+    NewStepCount is StepCount + 1,
+    ResultsOut = results{step_count:NewStepCount, error_count:NewErrorCount, messages:NewMessages}.
+
+solution(Problem, _MinNumSteps, _MaxNumSteps, Problem, [Problem | _], ResultsIn, ResultsOut) :-
+    results{step_count:StepCount, error_count:ErrorCount, messages:Messages} = ResultsIn,
+    NewMessages = [ ["Problem Restated Too Many Times"] | Messages ],
+    NewErrorCount is ErrorCount + 1,
+    NewStepCount is StepCount + 1,
+    ResultsOut = results{step_count:NewStepCount, error_count:NewErrorCount, messages:NewMessages}.
+
+
+solution(_Problem,
+	 _MinNumSteps,
+	 _MaxNumSteps,
+	 _PreviousPossibleSolutionLine,
+	 _PossibleSolutions,
+	 _ResultsIn,
 	 ResultsOut) :-
-    
-true.
+
+    ResultsOut = true.
