@@ -1,7 +1,7 @@
 ﻿var tokenizer =  {
 
     problems: [
-        { answer: "8", question: "n - 7 = 2" },
+        { answer: "9", question: "n - 7 = 2" },
         { answer: "12", question: "n - 6 = 6" },
         { answer: "6", question: "n - 4 = 2" },
         { answer: "5", question: "n - 3 = 2" },
@@ -23,14 +23,14 @@
 }
 
 tokenizer.Tokenizer.prototype.tokenize = function () {
-    var operators = ['-', '+', '=', '*', '/'];
+    //var operators = ['-', '+', '=', '*', '/'];
 
     var operatorPositions = [];
 
     // parse problem to return operators and their indicies
     for (var i = 0; i < this.problem.question.length; i++) {
         var character = this.problem.question[i];
-        if (operators.indexOf(character) > -1) {
+        if (this.operators.indexOf(character) > -1) {
             operatorPositions.push({ "operator": character, "index": i });
         }
     }
@@ -42,12 +42,15 @@ tokenizer.Tokenizer.prototype.tokenize = function () {
     for (var i = 0; i < operatorPositions.length; i++) {
         var operator = operatorPositions[i];
         var endIndex = operator.index; 
+
         tokens.push(this.problem.question.substring(startIndex, endIndex).split(" ").join(""));
         tokens.push(operator.operator);
+
         startIndex = endIndex + 1;
+        endIndex = 999;
     }
 
-    tokens.push(this.problem.question.substring(startIndex, 999).split(" ").join(""));
-
+    tokens.push(this.problem.question.substring(startIndex, endIndex).split(" ").join(""));
+    window.alert(tokens);
     return tokens;
 }
