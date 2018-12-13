@@ -1,0 +1,18 @@
+[Unit]
+Description = Math Autograder Service
+After = network-online.target epmd.service apache2
+Wants = apache2
+
+
+[Service]
+User = math_autograder
+Group = math_autograder
+RestartSec = 5
+WorkingDirectory = /usr/local/math_autograder
+Type = forking
+PIDFile = /run/math_autograder.pid
+PermissionsStartOnly = true
+Restart = on-failure
+ExecStart = /usr/local/bin/swipl run_math_autograder.pl --http=5000
+ExecStartPost = /bin/sh -c "/usr/bin/pgrep --full --uid math_autograder math_autograder > /run/math_autograder.pid"
+
