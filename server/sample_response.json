@@ -1,0 +1,21 @@
+{
+  "type": "attempted_solution",
+  "grader_results": {
+    "type": "results",
+    "error_count": 1,
+    "messages": [
+      [
+        "Problem Restated Too Many Times"
+      ]
+    ],
+    "step_count": 1
+  },
+  "max_num_steps": 12,
+  "min_num_steps": 2,
+  "problem": ["x", "+", "3", "=", "5"],
+  "student_work": [
+    ["x", "+", "3", "=", "5"],
+    ["x", "=", "5", "-", "3"],
+    ["x", "=", "2"]
+  ]
+}
