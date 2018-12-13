@@ -1,13 +1,17 @@
 %% -*-prolog-*-
 %%
 :- module(math_autograder, [server/1]).
+
 :- use_module(library(http/thread_httpd)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_json)).
 :- use_module(library(http/http_session)).
 
 
-:- http_handler(root('math_autograder'), autograder_handler, []).
+
+:- http_handler(root('math_autograder/solutions'), autograder_handler, []).
+
+
 
 http_set_session_options([timeout(0)]).
 
