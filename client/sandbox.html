@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" language="javascript" src="Scripts/Tokenizer.js"></script>
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-1.12.4.js"
+      integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript" language="javascript">
+        var tkn = new tokenizer.Tokenizer(tokenizer.problems[0]);
+        var data = tkn.tokenize();
+        $.ajax({
+            url: "http://math-autograder.southcentralus.cloudapp.azure.com/math_autograder/solutions",
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (result) {
+                window.alert(result);
+            },
+            error: function (xhr, status, error) {
+                window.alert(error);
+            }
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>
