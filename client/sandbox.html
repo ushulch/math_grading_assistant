@@ -5,9 +5,25 @@
     <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-1.12.4.js"
       integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
       crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script><script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script type="text/javascript" language="javascript">
+
+        var app = angular.module('myApp', []);
+        app.controller('myController', function($scope) {
+            $scope.problems = tokenizer.problems;
+        });
         var tkn = new tokenizer.Tokenizer(tokenizer.problems[0]);
-        var data = tkn.tokenize();
+        var qTokens = tkn.tokenize();
+
+        var data = {};
+        data.type = "attempted_solution";
+        data.problem = qTokens;
+        data["min_num_steps"] = 2;
+        data["max_num_steps"] = 11;
+        data["grader_results"] = [];
+
+
+
         $.ajax({
             url: "http://math-autograder.southcentralus.cloudapp.azure.com/math_autograder/solutions",
             method: "POST",
@@ -15,15 +31,24 @@
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (result) {
-                window.alert(result);
+                //window.alert(result);
             },
             error: function (xhr, status, error) {
-                window.alert(error);
+                //window.alert(error);
             }
         })
     </script>
 </head>
 <body>
-
+    <div data-ng-app="myApp" data-ng-controller="myController">
+        <div data-ng-repeat="problem in problems"> 
+            <div>
+                {{ $index + 1 }}. {{ problem.question }}
+                <div>
+                    <textarea rows="10" style="width:500px;" id="txtWork"></textarea>
+                </div>
+            </p>
+        </div>
+    </div>
 </body>
 </html>

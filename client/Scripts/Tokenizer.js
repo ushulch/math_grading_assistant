@@ -11,7 +11,7 @@
         { answer: "33", question: "b - 11 = 22" },
         { answer: "60", question: "a - 20 = 40" },
         { answer: "145", question: "n - 100 = 45" },
-        { answer: "36", question: "x - 15 = 19" },
+        { answer: "34", question: "x - 15 = 19" },
         { answer: "11", question: "n - 3 = 8" }
     ],
 
@@ -51,6 +51,6 @@ tokenizer.Tokenizer.prototype.tokenize = function () {
     }
 
     tokens.push(this.problem.question.substring(startIndex, endIndex).split(" ").join(""));
-    window.alert(tokens);
+    //window.alert(tokens);
     return tokens;
 }
