@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <style type="text/css">
+        .showMyWork {
+            border-radius: 10px;
+            padding-top: 12px;
+            width: 500px;
+        }
+
+        .question {
+            padding-bottom: 12px;
+            padding-top: 12px;
+            font-weight: bold;
+        }
+    </style>
     <script type="text/javascript" language="javascript" src="Scripts/Tokenizer.js"></script>
     <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-1.12.4.js"
       integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
@@ -11,7 +24,7 @@
         var app = angular.module('myApp', []);
         app.controller('myController', function($scope) {
             $scope.problems = tokenizer.problems;
-
+            $scope.showWork = [];
 
             $scope.inputChanged = function(index){
                 var tkn = new tokenizer.Tokenizer(tokenizer.problems[0]);
@@ -25,7 +38,6 @@
                 data["grader_results"] = [];
                 data["student_work"] = [];
 
-                //var steps = $scope.problems[index].showWork.split("\n");
                 var steps = document.getElementById("txtWork" + (index + 1)).value.split("\n");
                 for (var i = 0; i < steps.length; i++){
                     var step = {};
@@ -55,12 +67,15 @@
     <div data-ng-app="myApp" data-ng-controller="myController">
         <div data-ng-repeat="problem in problems"> 
             <div>
-                {{ $index + 1 }}. {{ problem.question }}
+                <div id="question" class="question">
+                    {{ $index + 1 }}. {{ problem.question }}
+                </div>
+
                 <div>
-                    <textarea rows="10" style="width:500px;" id="txtWork{{$index + 1}}" data-ng-blur="inputChanged($index);"
+                    <textarea rows="10" class="showMyWork" style="width:500px;" id="txtWork{{$index + 1}}" data-ng-blur="inputChanged($index);"
                     data-ng-model="$scope.showWork"></textarea>
                 </div>
-            </p>
+            </div>
         </div>
     </div>
 </body>
