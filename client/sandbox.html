@@ -11,32 +11,52 @@
         var app = angular.module('myApp', []);
         app.controller('myController', function($scope) {
             $scope.problems = tokenizer.problems;
+
+
+            $scope.inputChanged = function(){
+                var tkn = new tokenizer.Tokenizer(tokenizer.problems[0]);
+                var qTokens = tkn.tokenize();
+
+                var data = {};
+                data.type = "attempted_solution";
+                data.problem = qTokens;
+                data["min_num_steps"] = 2;
+                data["max_num_steps"] = 11;
+                data["grader_results"] = [];
+                data["student_work"] = [];
+
+                var steps = $scope.showWork.split("\n");
+                for (var i = 0; i < steps.length; i++){
+                    var step = steps[i];
+                    tkn = new tokenizer.Tokenizer(step);
+                    data["student_work"].push(tkn.tokenize());
+                };
+                
+                $.ajax({
+                    url: "http://math-autograder.southcentralus.cloudapp.azure.com/math_autograder/solutions",
+                    method: "POST",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: function (result) {
+                        //window.alert(result);
+                    },
+                    error: function (xhr, status, error) {
+                        //window.alert(error);
+                    }
+                });
         });
-        var tkn = new tokenizer.Tokenizer(tokenizer.problems[0]);
-        var qTokens = tkn.tokenize();
 
-        var data = {};
-        data.type = "attempted_solution";
-        data.problem = qTokens;
-        data["min_num_steps"] = 2;
-        data["max_num_steps"] = 11;
-        data["grader_results"] = [];
+        for (var i = 0; i < )
+
+        ["x", "+", "3", "=", "5" ],
+        ["x", "=", "5", "-", "3" ],
+        ["x", "=", "2" ]
+    ]
 
 
 
-        $.ajax({
-            url: "http://math-autograder.southcentralus.cloudapp.azure.com/math_autograder/solutions",
-            method: "POST",
-            dataType: "json",
-            contentType: "application/json",
-            data: JSON.stringify(data),
-            success: function (result) {
-                //window.alert(result);
-            },
-            error: function (xhr, status, error) {
-                //window.alert(error);
-            }
-        })
+
     </script>
 </head>
 <body>
@@ -45,7 +65,8 @@
             <div>
                 {{ $index + 1 }}. {{ problem.question }}
                 <div>
-                    <textarea rows="10" style="width:500px;" id="txtWork"></textarea>
+                    <textarea rows="10" style="width:500px;" id="txtWork{{index + 1}}" data-ng-blur="inputChanged();"
+                    data-ng-value="showWork"></textarea>
                 </div>
             </p>
         </div>
