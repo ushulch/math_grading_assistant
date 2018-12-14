@@ -27,11 +27,12 @@
 
                 var steps = $scope.showWork.split("\n");
                 for (var i = 0; i < steps.length; i++){
-                    var step = steps[i];
+                    var step = {};
+                    step.question = steps[i];
                     tkn = new tokenizer.Tokenizer(step);
                     data["student_work"].push(tkn.tokenize());
                 };
-                
+
                 $.ajax({
                     url: "http://math-autograder.southcentralus.cloudapp.azure.com/math_autograder/solutions",
                     method: "POST",
@@ -39,24 +40,14 @@
                     contentType: "application/json",
                     data: JSON.stringify(data),
                     success: function (result) {
-                        //window.alert(result);
+                        window.alert(JSON.stringify(result));
                     },
                     error: function (xhr, status, error) {
-                        //window.alert(error);
+                        window.alert(error);
                     }
                 });
+            }
         });
-
-        for (var i = 0; i < )
-
-        ["x", "+", "3", "=", "5" ],
-        ["x", "=", "5", "-", "3" ],
-        ["x", "=", "2" ]
-    ]
-
-
-
-
     </script>
 </head>
 <body>
@@ -66,7 +57,7 @@
                 {{ $index + 1 }}. {{ problem.question }}
                 <div>
                     <textarea rows="10" style="width:500px;" id="txtWork{{index + 1}}" data-ng-blur="inputChanged();"
-                    data-ng-value="showWork"></textarea>
+                    data-ng-model="$parent.showWork"></textarea>
                 </div>
             </p>
         </div>
