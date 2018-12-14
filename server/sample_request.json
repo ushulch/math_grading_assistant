@@ -1,0 +1,12 @@
+{
+    "type":"attempted_solution",
+    "problem":["x", "+", "3", "=", "5"],
+    "min_num_steps": 2,
+    "max_num_steps": 12,
+    "grader_results": [],
+    "student_work": [
+        ["x", "+", "3", "=", "5" ],
+        ["x", "=", "5", "-", "3" ],
+        ["x", "=", "2" ]
+    ]
+}
